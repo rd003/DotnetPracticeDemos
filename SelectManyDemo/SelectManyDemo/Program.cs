@@ -3,6 +3,7 @@ using SelectManyDemo.ExtensionMethods;
 using SelectManyDemo.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddDbContext<AppDbContext>(o => o.UseInMemoryDatabase("InMem"));
 
 var app = builder.Build();
@@ -27,26 +28,26 @@ app.MapGet("/api/employees", async (AppDbContext context) =>
 });
 
 
-// get departments all employee
+// get department's all employee
 
 app.MapGet("/api/departments/{departmentId}/employees", async (int departmentId, AppDbContext context) =>
 {
     var employees = await context.Departments
-                                 .Where(d => d.DepartmentId == departmentId)
-                                 .SelectMany(d => d.Employees)
-                                 .Select(e => e.Name)
-                                 .ToListAsync();
+                           .Where(d => d.DepartmentId == departmentId)
+                           .SelectMany(d => d.Employees)
+                           .Select(e => e.Name)
+                           .ToListAsync();
     return Results.Ok(employees);
 });
 
-// get employee skills
+// get employee's skills
 
 app.MapGet("api/employees/{employeeId}/skills", async (int employeeId, AppDbContext context) =>
 {
     var skills = await context.Employees
                         .Where(e => e.EmployeeId == employeeId)
                         .SelectMany(e => e.EmployeeSkills)
-                        .Select(e => e.Skill.Name)
+                        .Select(es => es.Skill.Name)
                         .ToListAsync();
     return Results.Ok(skills);
 });
