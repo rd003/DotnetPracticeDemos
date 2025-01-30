@@ -6,9 +6,9 @@ Accept: application/json
 
 ### Get department's employees
 
-GET {{base_address}}/api/departments/2/employees
+GET {{base_address}}/api/departments/1/employees
 Accept: application/json
 
 ### Get employees's skills
-GET {{base_address}}/api/employees/3/skills
+GET {{base_address}}/api/employees/1/skills
 Accept: application/json
