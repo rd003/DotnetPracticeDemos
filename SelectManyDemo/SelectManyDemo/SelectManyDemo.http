@@ -1,0 +1,6 @@
+@SelectManyDemo_HostAddress = http://localhost:5121
+
+GET {{SelectManyDemo_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
