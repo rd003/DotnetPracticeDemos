@@ -27,6 +27,31 @@ app.MapGet("/api/employees", async (AppDbContext context) =>
 });
 
 
+// get departments all employee
+
+app.MapGet("/api/departments/{departmentId}/employees", async (int departmentId, AppDbContext context) =>
+{
+    var employees = await context.Departments
+                                 .Where(d => d.DepartmentId == departmentId)
+                                 .SelectMany(d => d.Employees)
+                                 .Select(e => e.Name)
+                                 .ToListAsync();
+    return Results.Ok(employees);
+});
+
+// get employee skills
+
+app.MapGet("api/employees/{employeeId}/skills", async (int employeeId, AppDbContext context) =>
+{
+    var skills = await context.Employees
+                        .Where(e => e.EmployeeId == employeeId)
+                        .SelectMany(e => e.EmployeeSkills)
+                        .Select(e => e.Skill.Name)
+                        .ToListAsync();
+    return Results.Ok(skills);
+});
+
+
 app.Run();
 
 public record EmployeeWithSkill(int EmployeeId, string Name, string DepartmentName, string[] Skills);
