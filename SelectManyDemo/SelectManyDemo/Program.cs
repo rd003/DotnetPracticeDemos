@@ -1,41 +1,32 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.EntityFrameworkCore;
+using SelectManyDemo.ExtensionMethods;
+using SelectManyDemo.Models;
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<AppDbContext>(o => o.UseInMemoryDatabase("InMem"));
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
 app.UseHttpsRedirection();
+app.InitializeDb();
 
-var summaries = new[]
+app.MapGet("/api/employees", async (AppDbContext context) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    var employees = await context.Employees
+                        .Include(e => e.Department)
+                        .Select(e =>
+                          new EmployeeWithSkill(
+                              e.EmployeeId,
+                              e.Name,
+                              e.Department.Name,
+                              e.EmployeeSkills
+                               .Select(es => es.Skill.Name)
+                               .ToArray()
+                         ))
+                        .ToListAsync();
+    return Results.Ok(employees);
+});
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+public record EmployeeWithSkill(int EmployeeId, string Name, string DepartmentName, string[] Skills);

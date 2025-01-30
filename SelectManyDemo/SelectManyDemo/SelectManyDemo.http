@@ -1,6 +1,7 @@
-@SelectManyDemo_HostAddress = http://localhost:5121
+@base_address = http://localhost:5121
 
-GET {{SelectManyDemo_HostAddress}}/weatherforecast/
+### Get employees
+GET {{base_address}}/api/employees
 Accept: application/json
 
-###
+### Get mployees skill
