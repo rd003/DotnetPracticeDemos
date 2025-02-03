@@ -15,7 +15,9 @@ app.MapGet("/people", async (PersonDbContext context) =>
                               {
                                   PersonId = p.PersonId,
                                   PersonEmail = p.PersonEmail,
-                                  PersonName = p.PersonName
+                                  PersonName = p.PersonName,
+                                  Age = p.Age,
+                                  ContactNumber = p.ContactNumber
                               })
                               .ToListAsync();
     return Results.Ok(peoples);

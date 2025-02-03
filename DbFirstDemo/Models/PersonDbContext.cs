@@ -16,7 +16,8 @@ public partial class PersonDbContext : DbContext
     }
 
     public virtual DbSet<Person> People { get; set; }
-    // public DbSet<Category> Categories { get; set; }
+
+    public DbSet<Category> Categories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
