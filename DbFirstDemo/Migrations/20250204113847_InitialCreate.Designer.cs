@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbFirstDemo.Migrations
 {
     [DbContext(typeof(PersonDbContext))]
-    [Migration("20250203155321_InitialCreate")]
+    [Migration("20250204113847_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -23,23 +23,6 @@ namespace DbFirstDemo.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("DbFirstDemo.Models.Category", b =>
-                {
-                    b.Property<int>("CategoryID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"));
-
-                    b.Property<string>("CategoryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CategoryID");
-
-                    b.ToTable("Categories");
-                });
 
             modelBuilder.Entity("DbFirstDemo.Models.Person", b =>
                 {
