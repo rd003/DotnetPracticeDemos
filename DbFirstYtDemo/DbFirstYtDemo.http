@@ -1,0 +1,6 @@
+@DbFirstYtDemo_HostAddress = http://localhost:5122
+
+GET {{DbFirstYtDemo_HostAddress}}/people/
+Accept: application/json
+
+###
