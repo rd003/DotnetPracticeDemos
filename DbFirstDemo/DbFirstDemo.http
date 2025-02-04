@@ -1,0 +1,6 @@
+@DbFirstDemo_HostAddress = http://localhost:5028
+
+GET {{DbFirstDemo_HostAddress}}/people/
+Accept: application/json
+
+###
