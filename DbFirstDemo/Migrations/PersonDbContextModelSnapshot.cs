@@ -35,7 +35,7 @@ namespace DbFirstDemo.Migrations
 
                     b.HasKey("CategoryID");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("DbFirstDemo.Models.Person", b =>
@@ -69,7 +69,7 @@ namespace DbFirstDemo.Migrations
                     b.HasIndex(new[] { "PersonEmail" }, "IX_People_Email")
                         .IsUnique();
 
-                    b.ToTable("People");
+                    b.ToTable("People", (string)null);
                 });
 #pragma warning restore 612, 618
         }

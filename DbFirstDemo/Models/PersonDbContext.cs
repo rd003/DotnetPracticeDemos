@@ -35,6 +35,8 @@ public partial class PersonDbContext : DbContext
             entity.Property(e => e.PersonName).HasMaxLength(50);
         });
 
+
+
         OnModelCreatingPartial(modelBuilder);
     }
 
