@@ -1,0 +1,8 @@
+@baseAddress = http://localhost:5284
+
+GET {{baseAddress}}/api/books/offset?limit=10&page=100000
+Accept: application/json
+
+###
+GET {{baseAddress}}/api/books/keyset?limit=10&lastId=0
+Accept: application/json
