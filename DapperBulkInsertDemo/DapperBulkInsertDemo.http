@@ -1,0 +1,6 @@
+@DapperBulkInsertDemo_HostAddress = http://localhost:5048
+
+POST  {{DapperBulkInsertDemo_HostAddress}}/api/people/
+Content-Type: : application/json
+
+###
