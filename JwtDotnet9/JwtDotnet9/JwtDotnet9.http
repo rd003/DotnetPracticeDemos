@@ -1,0 +1,16 @@
+@JwtDotnet9_HostAddress = http://localhost:5163
+
+GET {{JwtDotnet9_HostAddress}}/weatherforecast/
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwianRpIjoiYjU0ODY3YTgtM2QwZS00N2NkLThiMWQtZjU3ZDJjOTY5MmQzIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzQ3NTY2MjA4LCJleHAiOjE3NDc1NjcxMDgsImlhdCI6MTc0NzU2NjIwOCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MTYzIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MTYzIn0.OjqtxwC5z-SWuVdPQjMb_BgffEVyMqbeOlNc3NgMcjw
+
+
+###
+
+POST {{JwtDotnet9_HostAddress}}/accounts/login
+Content-Type: application/json
+
+{
+    "username":"admin",
+    "password":"admin123"
+}
