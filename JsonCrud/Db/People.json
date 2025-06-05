@@ -1,0 +1,12 @@
+[
+    {
+        "id":"guid1",
+        "firstName":"first1",
+        "lastName":"last1"
+    },
+    {
+        "id":"guid2",
+        "firstName":"first2",
+        "lastName":"last2"
+    }
+]
