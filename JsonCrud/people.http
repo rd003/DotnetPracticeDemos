@@ -1,0 +1,3 @@
+@base_address = https://localhost:7202
+
+GET {{base_address}}/api/people
