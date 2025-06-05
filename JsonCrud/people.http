@@ -1,3 +1,15 @@
-@base_address = https://localhost:7202
+@base_address = https://localhost:7202/api/people
 
-GET {{base_address}}/api/people
+GET {{base_address}}
+
+### 
+GET {{base_address}}/01973fe3-548b-7fc8-b092-3ff8d86d3c17
+
+### 
+POST  {{base_address}}
+Content-Type: application/json
+
+{
+    "firstName":"John",
+    "lastName":"Doe"
+}
