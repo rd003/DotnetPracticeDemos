@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 
 namespace JsonCrud.Person;
 
@@ -60,7 +61,36 @@ public static class PersonEndpoints
                 return Results.InternalServerError(ex.Message);
             }
         }).WithName("GetPersonById");
+
+        app.MapPut("/api/people/{id:guid}", async (Guid id, [FromBody] UpdatePersonDto personToUpdate) =>
+        {
+            if (id != personToUpdate.Id)
+            {
+                return Results.BadRequest("Ids mismatch");
+            }
+            try
+            {
+                List<Person> people = [.. await GetPeople(GetPath())];
+                var person = people.SingleOrDefault(a => a.Id == id);
+                if (person == null)
+                {
+                    return Results.NotFound();
+                }
+                person.Update(personToUpdate.FirstName, personToUpdate.LastName);
+
+                var updatedPeople = people.Select(p => p.Id == person.Id ? person : p);
+
+                await UpdateJsonFile(updatedPeople);
+
+                return Results.NoContent();
+            }
+            catch (Exception ex)
+            {
+                return Results.InternalServerError(ex.Message);
+            }
+        });
     }
+
 
     private static async Task UpdateJsonFile(IEnumerable<Person> updatedPeople)
     {

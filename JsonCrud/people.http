@@ -13,3 +13,16 @@ Content-Type: application/json
     "firstName":"John",
     "lastName":"Doe"
 }
+
+###
+PUT  {{base_address}}/01973fe3-548b-74ab-b538-bdfbc0cd3d58
+Content-Type: application/json
+
+{
+    "id":"01973fe3-548b-74ab-b538-bdfbc0cd3d58",
+    "firstName":"First 3",
+    "lastName":"Last 3"
+}
+
+###
+DELETE {{base_address}}/01973fe3-548b-74ab-b538-bdfbc0cd3d58
