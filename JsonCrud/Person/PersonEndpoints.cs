@@ -89,6 +89,31 @@ public static class PersonEndpoints
                 return Results.InternalServerError(ex.Message);
             }
         });
+
+        app.MapDelete("/api/people/{id:guid}", async (Guid id) =>
+        {
+
+            try
+            {
+                List<Person> people = [.. await GetPeople(GetPath())];
+                var person = people.SingleOrDefault(a => a.Id == id);
+                if (person == null)
+                {
+                    return Results.NotFound();
+                }
+
+                var updatedPeople = people.Where(p => p.Id != id);
+
+                await UpdateJsonFile(updatedPeople);
+
+                return Results.NoContent();
+            }
+            catch (Exception ex)
+            {
+                return Results.InternalServerError(ex.Message);
+            }
+        });
+
     }
 
 
