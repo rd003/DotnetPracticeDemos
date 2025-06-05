@@ -16,7 +16,11 @@ app.MapGet("/api/people", async () =>
         if (File.Exists(filePath))
         {
             string jsonContent = await File.ReadAllTextAsync(filePath);
-            people = JsonSerializer.Deserialize<List<Person>>(jsonContent) ?? [];
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive= true
+            };
+            people = JsonSerializer.Deserialize<List<Person>>(jsonContent,options) ?? [];
         }
         else
         {

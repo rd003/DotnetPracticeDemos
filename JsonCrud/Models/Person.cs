@@ -1,35 +1,51 @@
+using System.Text.Json.Serialization;
+
 namespace JsonCrud.Models;
 
 public class Person
 {
-    public Guid Id { get; private set; }
-    public string FirstName { get; private set; } 
+    public Guid Id { get; private set; } = Guid.CreateVersion7();
+    public string FirstName { get; private set; }
     public string LastName { get; private set; }
 
-    private Person()
+    [JsonConstructor]
+    private Person(string firstName, string lastName)
     {
-        FirstName = string.Empty;
-        LastName = string.Empty;
+        FirstName = firstName;
+        LastName = lastName;
     }
 
-    private Person(Guid id, string firstName, string lastName)
+    public static Person Create(string firstName, string lastName)
     {
+        ValidateInputs(firstName, lastName);
+        return new Person(firstName, lastName);
+    }
+
+    public void Update(Guid id, string firstName, string lastName)
+    {
+        ValidateInputs(firstName, lastName);
         Id = id;
         FirstName = firstName;
         LastName = lastName;
     }
 
-    public void Create(string firstName, string lastName)
+    private static void ValidateInputs(string firstName, string lastName)
     {
-        Id = Guid.CreateVersion7();
-        FirstName = firstName;
-        LastName = lastName;
-    }
+        if (string.IsNullOrWhiteSpace(firstName))
+        {
+            throw new ArgumentException("FirstName can not be empty", nameof(firstName));
+        }
 
-    public void Update(Guid id,string firstName, string lastName)
-    {
-        Id = id;
-        FirstName = firstName;
-        LastName = lastName;
+         if (string.IsNullOrWhiteSpace(lastName))
+        {
+            throw new ArgumentException("LastName can not be empty", nameof(lastName));
+        }
     }
 }
+
+// public class Person
+// {
+//      public Guid Id { get; set; }
+//     public string FirstName { get; set; } = string.Empty;
+//     public string LastName { get; set;  } = string.Empty;
+// }
