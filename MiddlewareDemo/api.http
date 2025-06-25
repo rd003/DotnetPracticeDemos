@@ -1,0 +1,3 @@
+@base_url = http://localhost:5009
+
+GET {{base_url}}/greetings
