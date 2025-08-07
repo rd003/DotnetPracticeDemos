@@ -1,0 +1,43 @@
+﻿@{
+
+}
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+        <div class="card card-gradient border-0 shadow-lg rounded-4">
+            <div class="card-body p-5 text-center">
+                <h1 class="display-6 fw-bold text-success mb-4">
+                    Add Person
+                </h1>
+
+                <div class="d-grid mb-3">
+                    <a href="/person/index" class="btn btn-info">
+                        <i class="fa fa-list"></i>
+                        Show all
+                    </a>
+                </div>
+
+                <form class="text-start">
+                    <div class="mb-3">
+                        <label for="firstName">First Name</label>
+                        <input type="text" name="firstName" class="form-control" placeholder="First Name">
+                        <span class="d-block m-2 text-danger">Validation message</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" name="lastName" class="form-control" placeholder="Last Name">
+                        <span class="d-block m-2 text-danger">Validation message</span>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-save"></i>
+                            Save
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

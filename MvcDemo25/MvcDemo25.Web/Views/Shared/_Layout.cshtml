@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PersonApp - Welcome</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-gradient shadow-sm">
+        <div class="container">
+            <!-- Brand -->
+            <a class="navbar-brand fw-bold text-success fs-3" href="/">
+                <i class="fas fa-user-circle me-2"></i>PersonApp
+            </a>
+
+            <!-- Toggler button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link text-dark fw-semibold px-3" href="/">
+                        <i class="fas fa-home me-1"></i>Home
+                    </a>
+                    <a class="nav-link text-dark fw-semibold px-3" href="/home/about">
+                        <i class="fas fa-info-circle me-1"></i>About
+                    </a>
+                    <a class="nav-link text-dark fw-semibold px-3" href="/person/index">
+                        <i class="fas fa-users me-1"></i>Person
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="hero-gradient d-flex align-items-center mt-4">
+        <div class="container">
+           @RenderBody()
+        </div>
+    </main>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
+
+
