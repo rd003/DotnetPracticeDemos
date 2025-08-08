@@ -53,6 +53,24 @@
     <!-- Main Content -->
     <main class="hero-gradient d-flex align-items-center mt-4">
         <div class="container">
+            <div class="my-2">
+                @if (TempData["success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @TempData["success"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                @if (TempData["error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        @TempData["error"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+            </div>
+
            @RenderBody()
         </div>
     </main>
