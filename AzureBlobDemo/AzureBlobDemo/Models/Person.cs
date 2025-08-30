@@ -15,6 +15,6 @@ public class Person
     public string LastName { get; set; } = null!;
 
     [Required]
-    [MaxLength(100)]
+    [MaxLength(250)]
     public string ProfilePicture { get; set; } = null!;
 }

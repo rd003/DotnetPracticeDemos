@@ -39,7 +39,7 @@
             <label>Profile Pic</label>
             @if (!string.IsNullOrEmpty(Model.ProfilePicture))
             {
-                <img class="mb-1" style="width:100px height:80px" src="Model.ProfilePicture" />
+                <img class="mb-1" style="width:100px;height:80px" src="@Model.ProfilePicture" />
             }
             <input type="file" class="form-control" asp-for="File">
 

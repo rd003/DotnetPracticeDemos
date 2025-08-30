@@ -15,7 +15,7 @@ public class PersonUpdateDto
     public string LastName { get; set; } = null!;
 
     [Required]
-    public string? ProfilePicture { get; set; }
+    public string ProfilePicture { get; set; } = null!;
 
     public IFormFile? File { get; set; }
 

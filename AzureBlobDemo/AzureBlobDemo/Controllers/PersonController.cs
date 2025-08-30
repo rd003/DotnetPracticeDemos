@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AzureBlobDemo.Models;
+using AzureBlobDemo.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +11,12 @@ namespace AzureBlobDemo.Controllers;
 public class PersonController : Controller
 {
     private readonly AppDbContext _dbcontext;
+    private readonly IBlobStorageService _blobStorage;
 
-    public PersonController(AppDbContext dbcontext)
+    public PersonController(AppDbContext dbcontext, IBlobStorageService blobStorage)
     {
         _dbcontext = dbcontext;
+        _blobStorage = blobStorage;
     }
 
     public async Task<IActionResult> Index()
@@ -51,8 +54,8 @@ public class PersonController : Controller
                 return View(personToCreate);
             }
 
-            // TODO: refactor this logic
-            string profilePicUrl = personToCreate.File.FileName;
+            string profilePicUrl = await _blobStorage.UploadFileAsync(personToCreate.File);
+
             var person = new Person
             {
                 FirstName = personToCreate.FirstName,
@@ -113,16 +116,16 @@ public class PersonController : Controller
                     personToUpdate.ErrorMessage = "You can only upload .jpg, .jpeg, .png files";
                     return View(personToUpdate);
                 }
+                string oldPictureName = personToUpdate.ProfilePicture;
+                personToUpdate.ProfilePicture = await _blobStorage.UploadFileAsync(personToUpdate.File, oldPictureName);
             }
 
-            // TODO: refactor this logic
-            string profilePicUrl = personToUpdate.ProfilePicture ?? Guid.NewGuid().ToString();
             var person = new Person
             {
                 PersonId = personToUpdate.PersonId,
                 FirstName = personToUpdate.FirstName,
                 LastName = personToUpdate.LastName,
-                ProfilePicture = profilePicUrl
+                ProfilePicture = personToUpdate.ProfilePicture!
             };
             _dbcontext.Update(person);
             await _dbcontext.SaveChangesAsync();

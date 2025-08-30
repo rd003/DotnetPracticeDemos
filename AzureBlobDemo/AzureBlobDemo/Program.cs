@@ -1,4 +1,6 @@
 using AzureBlobDemo.Controllers;
+using AzureBlobDemo.Options;
+using AzureBlobDemo.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// adding azure blob options
+builder.Services.AddOptions<BlobStorageOptions>()
+                .BindConfiguration("AzureBlobStorage");
+builder.Services.AddSingleton<IBlobStorageService, BlobStorageServie>();
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<AppDbContext>(op => op.UseSqlServer(connectionString));
