@@ -1,0 +1,65 @@
+﻿@model LoginModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_NoAuthLayout";
+}
+
+<style>
+    .login-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="mb-0">Login</h3>
+            </div>
+            <div class="card-body">
+                @if (Model.Errors.Any())
+                {
+                    <div class="alert alert-danger">
+                        @foreach (var error in Model.Errors)
+                        {
+                            <p class="mb-0">@error</p>
+                        }
+                    </div>
+                }
+
+                <form asp-action="Login" method="post">
+                    <div class="form-group mb-3">
+                        <label asp-for="Username" class="form-label"></label>
+                        <input asp-for="Username" class="form-control" autocomplete="username" />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Password" class="form-label"></label>
+                        <input asp-for="Password" class="form-control" type="password" autocomplete="current-password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
