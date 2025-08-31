@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using AzureBlobDemo.Models;
+﻿using AzureBlobDemo.Models;
 using AzureBlobDemo.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AzureBlobDemo.Controllers;
 
-// [Authorize]
+[Authorize]
 public class PersonController : Controller
 {
     private readonly AppDbContext _dbcontext;
