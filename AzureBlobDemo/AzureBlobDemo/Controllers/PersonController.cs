@@ -141,14 +141,27 @@ public class PersonController : Controller
 
     public async Task<IActionResult> DeletePerson(int id)
     {
+        var transaction = await _dbcontext.Database.BeginTransactionAsync();
         try
         {
-            await _dbcontext.People.Where(a => a.PersonId == id).ExecuteDeleteAsync();
+            var person = await _dbcontext.People.FindAsync(id);
+            if (person == null)
+            {
+                throw new InvalidOperationException("No person found to delete.");
+            }
+            var blobUrl = person.ProfilePicture;
+            _dbcontext.People.Remove(person);
+            _dbcontext.SaveChanges();
+            await _blobStorage.DeleteBlobAsync(blobUrl);
+            await transaction.CommitAsync();
         }
         catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
+            await transaction.RollbackAsync();
         }
-
         return RedirectToAction(nameof(Index));
     }
+
+
 }

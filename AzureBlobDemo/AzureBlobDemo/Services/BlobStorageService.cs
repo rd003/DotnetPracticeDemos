@@ -1,4 +1,5 @@
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using AzureBlobDemo.Options;
 using Microsoft.Extensions.Options;
 
@@ -24,7 +25,7 @@ public class BlobStorageServie : IBlobStorageService
 
         await containerClient.CreateIfNotExistsAsync();
 
-        await containerClient.SetAccessPolicyAsync(Azure.Storage.Blobs.Models.PublicAccessType.Blob);
+        await containerClient.SetAccessPolicyAsync(PublicAccessType.Blob);
 
         BlobClient blobClient = containerClient.GetBlobClient(fileNameWithExtension);
 
@@ -33,6 +34,20 @@ public class BlobStorageServie : IBlobStorageService
         await blobClient.UploadAsync(stream, true);
 
         return blobClient.Uri.ToString();
+    }
+
+    public async Task DeleteBlobAsync(string blobUrl)
+    {
+        string blobName = Path.GetFileName(blobUrl);
+        if (string.IsNullOrEmpty(blobName))
+        {
+            throw new InvalidOperationException("Invalid blob url");
+        }
+        BlobContainerClient containerClient = new(_blobStorage.ConnectionString, _blobStorage.ContainerName);
+
+        BlobClient blobClient = containerClient.GetBlobClient(blobName);
+
+        await blobClient.DeleteIfExistsAsync(snapshotsOption: DeleteSnapshotsOption.IncludeSnapshots);
     }
 
 }
