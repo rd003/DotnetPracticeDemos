@@ -1,0 +1,30 @@
+@base_url = http://localhost:5214/people
+
+POST {{base_url}}
+Content-Type:application/json
+
+{
+  "firstName":"Johny",
+  "lastName":"Depp"
+}
+
+### PUT
+PUT {{base_url}}
+Content-Type:application/json
+
+{
+  "rowKey":"049b0caf-fa89-4388-bee6-d6bf3eeb9575",
+  "firstName":"John1",
+  "lastName":"Doe1"
+}
+
+### Get all record from a partition
+GET {{base_url}}
+
+### GET
+GET {{base_url}}/049b0caf-fa89-4388-bee6-d6bf3eeb9575
+
+### Delete
+DELETE {{base_url}}/f878cd94-e6b1-4c3b-953e-6746998b3b36
+
+
