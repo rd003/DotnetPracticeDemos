@@ -1,9 +1,0 @@
-@base_url = http://localhost:5077
-
-POST {{base_url}}/post
-Content-Type : Application/json
-
-{
-  "firstName": "Ravindra 1",
-  "lastName":"Devrani 1"
-}
