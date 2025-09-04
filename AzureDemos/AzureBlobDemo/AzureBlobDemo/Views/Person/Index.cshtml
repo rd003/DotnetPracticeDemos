@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Person>
+@{
+    ViewData["Title"] = "People";
+}
+
+<h1>People</h1>
+
+<a class="btn btn-info mb-2" href="/Person/CreatePerson">Add more</a>
+
+<table class="table table-striped table-bordered">
+
+    <thead>
+        <tr>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Picture</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var person in Model)
+        {
+            <tr>
+                <td>@person.FirstName</td>
+                <td>@person.LastName</td>
+                <td>
+                    @if (string.IsNullOrEmpty(person.ProfilePicture))
+                    {
+                        <span>No Image</span>
+                    }
+                    else
+                    {
+                        <img style="width:120px;height:90px" src="@person.ProfilePicture" />
+                    }
+                </td>
+                <td>
+                    <a href="/Person/EditPerson?id=@person.PersonId" class="btn btn-success">Edit</a>
+                    <a onclick="return window.confirm('Are you sure to delete?')"
+                        href="/Person/DeletePerson?id=@person.PersonId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
