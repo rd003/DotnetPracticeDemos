@@ -16,6 +16,59 @@ app.MapPost("/api/people", async (IConfiguration config, Person person) =>
     return Results.Ok(person);
 });
 
+
+app.MapPut("/api/people", async (IConfiguration config, Person person) =>
+{
+    var container = GetContainer(config);
+
+    ItemResponse<Person> response = await container.UpsertItemAsync(item: person, partitionKey: new PartitionKey(person.Id));
+
+    Console.WriteLine($"====> RU {response.RequestCharge}");
+
+    return Results.Ok(person);
+});
+
+app.MapGet("/api/people/{id}", async (IConfiguration config, string id) =>
+{
+    var container = GetContainer(config);
+
+    ItemResponse<Person> response = await container.ReadItemAsync<Person>(id: id, partitionKey: new PartitionKey(id));
+    Console.WriteLine($"====> RU {response.RequestCharge}");
+
+    return Results.Ok(response.Resource);
+});
+
+app.MapGet("/api/people", async (IConfiguration config) =>
+{
+    var container = GetContainer(config);
+
+    var query = new QueryDefinition("select * from c");
+
+    var iterator = container.GetItemQueryIterator<Person>(query);
+
+    var people = new List<Person>();
+
+    while (iterator.HasMoreResults)
+    {
+        var response = await iterator.ReadNextAsync();
+        Console.WriteLine($"====> RU {response.RequestCharge}");
+        people.AddRange(response);
+    }
+    return Results.Ok(people);
+});
+
+
+app.MapDelete("/api/people/{id}", async (IConfiguration config, string id) =>
+{
+    var container = GetContainer(config);
+
+    ItemResponse<Person> response = await container.DeleteItemAsync<Person>(id: id, partitionKey: new PartitionKey(id));
+
+    Console.WriteLine($"====> RU {response.RequestCharge}");
+
+    return Results.NoContent();
+});
+
 app.Run();
 
 
