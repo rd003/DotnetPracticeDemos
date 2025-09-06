@@ -1,3 +1,4 @@
+using System.Configuration;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Azure.Cosmos;
 using Newtonsoft.Json;
@@ -21,7 +22,7 @@ app.MapPut("/api/people", async (IConfiguration config, Person person) =>
 {
     var container = GetContainer(config);
 
-    ItemResponse<Person> response = await container.UpsertItemAsync(item: person, partitionKey: new PartitionKey(person.Id));
+    ItemResponse<Person> response = await container.ReplaceItemAsync(person, person.Id, partitionKey: new PartitionKey(person.Id));
 
     Console.WriteLine($"====> RU {response.RequestCharge}");
 
@@ -41,11 +42,7 @@ app.MapGet("/api/people/{id}", async (IConfiguration config, string id) =>
 app.MapGet("/api/people", async (IConfiguration config) =>
 {
     var container = GetContainer(config);
-
-    var query = new QueryDefinition("select * from c");
-
-    var iterator = container.GetItemQueryIterator<Person>(query);
-
+    var iterator = container.GetItemQueryIterator<Person>();
     var people = new List<Person>();
 
     while (iterator.HasMoreResults)
@@ -74,11 +71,13 @@ app.Run();
 
 static Container GetContainer(IConfiguration config)
 {
-    string connectionString = config.GetSection("CosmosDb:ConnectionString").Value ?? throw new InvalidOperationException("No connection string found");
+    string connectionString = config["CosmosDb:ConnectionString"] ?? throw new ConfigurationErrorsException("CosmosDb:ConnectionString");
 
     var client = new CosmosClient(connectionString);
 
-    var database = client.GetDatabase("CosmosDb:Database");
+    string databaseName = config["CosmosDb:Database"] ?? throw new ConfigurationErrorsException("CosmosDb:Database");
+
+    var database = client.GetDatabase(databaseName);
 
     var contaier = database.GetContainer("people");
 
