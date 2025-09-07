@@ -39,10 +39,15 @@ app.MapGet("/api/people/{id}", async (IConfiguration config, string id) =>
     return Results.Ok(response.Resource);
 });
 
-app.MapGet("/api/people", async (IConfiguration config) =>
+app.MapGet("/api/people", async (IConfiguration config, string firstName) =>
 {
     var container = GetContainer(config);
-    var iterator = container.GetItemQueryIterator<Person>();
+
+    string query = "SELECT * FROM people p WHERE p.FirstName = @firstName";
+    var queryDefinition = new QueryDefinition(query)
+  .WithParameter("@firstName", firstName);
+
+    var iterator = container.GetItemQueryIterator<Person>(queryDefinition: queryDefinition);
     var people = new List<Person>();
 
     while (iterator.HasMoreResults)

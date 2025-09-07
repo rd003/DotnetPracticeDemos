@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ### Get
-GET {{base_url}}
+GET {{base_url}}?firstname=John
 
 ### GET 1
 
