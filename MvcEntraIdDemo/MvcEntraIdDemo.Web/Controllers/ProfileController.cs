@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Graph;
 using Microsoft.Graph.Models;
-using System.Text.Json;
-
+using System.Reflection;
 namespace MvcEntraIdDemo.Web.Controllers;
 
+[Authorize]
 public class ProfileController : Controller
 {
     private readonly GraphServiceClient _graphServiceClient;
@@ -15,21 +15,49 @@ public class ProfileController : Controller
         _graphServiceClient = graphServiceClient;
     }
 
-    [Authorize]
+    public async Task<IActionResult> me()
+    {
+        try
+        {
+            var user = await _graphServiceClient.Me
+        .GetAsync(requestConfig =>
+        {
+            requestConfig.QueryParameters.Select = new[] { "id", "displayName", "mail", "city", "state", "country", "mobilePhone", "givenName", "surname", "jobTitle", "companyName" };
+        });
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            // Handle error
+            return Ok("Error");
+        }
+
+    }
+
     public async Task<IActionResult> Edit()
     {
         try
         {
 
+            // with this, I am not able to fetch city,state and country
+            //var user = await _graphServiceClient.Me
+            //    .GetAsync();
+
             var user = await _graphServiceClient.Me
-                .GetAsync();
+        .GetAsync(requestConfig =>
+        {
+            requestConfig.QueryParameters.Select = new[] { "id", "displayName", "mail", "city", "state", "country", "mobilePhone", "givenName", "surname", "jobTitle", "companyName" };
+        });
 
             var model = new EditProfileViewModel
             {
                 DisplayName = user.DisplayName,
-                GivenName = user.GivenName,
-                Surname = user.Surname,
-               
+                FirstName = user.GivenName,
+                LastName = user.Surname,
+                MobilePhone = user.MobilePhone,
+                City = user.City,
+                Country = user.Country,
+                State = user.State
             };
 
             return View(model);
@@ -42,32 +70,35 @@ public class ProfileController : Controller
     }
 
     [HttpPost]
-    [Authorize]
     public async Task<IActionResult> Edit(EditProfileViewModel model)
     {
         if (!ModelState.IsValid)
             return View(model);
 
-        var userId = User.FindFirst("oid")?.Value;
-
+        var user = await _graphServiceClient.Me.GetAsync();
+        var userId = user.Id;
         try
         {
             var userUpdate = new User
             {
                 DisplayName = model.DisplayName,
-                GivenName = model.GivenName,
-                Surname = model.Surname
+                GivenName = model.FirstName,
+                Surname = model.LastName,
+                City = model.City,
+                State = model.State,
+                Country = model.Country,
+                MobilePhone = model.MobilePhone
             };
 
             await _graphServiceClient.Users[userId]
                 .PatchAsync(userUpdate);
 
-            TempData["Success"] = "Profile updated successfully!";
+            TempData["message"] = "Profile updated successfully!";
             return RedirectToAction("Index", "Home");
         }
         catch (Exception ex)
         {
-            ModelState.AddModelError("", "Failed to update profile");
+            TempData["message"]= "Failed to update profile";
             return View(model);
         }
     }
@@ -76,6 +107,11 @@ public class ProfileController : Controller
 public class EditProfileViewModel
 {
     public string? DisplayName { get; set; }
-    public string? Surname { get; set; }
-    public string? GivenName { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public string? City { get; set; }
+    public string? State { get; set; }
+    public string? Country { get; set; }
+    public string? MobilePhone { get; set; }
+    public string? Email { get; set; }
 }

@@ -11,8 +11,8 @@ builder.Services.AddControllersWithViews().AddMicrosoftIdentityUI(); // Add this
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("EntraId"))
     .EnableTokenAcquisitionToCallDownstreamApi()
-    .AddMicrosoftGraph(builder.Configuration.GetSection("Graph"))
-    .AddInMemoryTokenCaches();;
+    .AddMicrosoftGraph(builder.Configuration.GetSection("GraphAPI"))
+    .AddInMemoryTokenCaches();
 
 builder.Services.AddRazorPages(); // Add this line
 
