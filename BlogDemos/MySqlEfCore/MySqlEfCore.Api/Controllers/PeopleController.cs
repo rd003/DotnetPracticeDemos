@@ -86,7 +86,7 @@ public class PeopleController : ControllerBase
             }
 
             var person = personUpdate.ToPerson();
-            _context.People.Add(person);
+            _context.People.Update(person);
             await _context.SaveChangesAsync();
 
             return NoContent(); // returns 204 NoContent status code

@@ -10,7 +10,7 @@ using MySqlEfCore.Api.Models;
 namespace MySqlEfCore.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251226073326_InitialCreate")]
+    [Migration("20251226100716_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -18,7 +18,7 @@ namespace MySqlEfCore.Api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.1")
+                .HasAnnotation("ProductVersion", "9.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("MySqlEfCore.Api.Models.Person", b =>

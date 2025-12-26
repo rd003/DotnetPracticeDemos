@@ -1,9 +1,9 @@
-@base_address = http://localhost:5004/api/peopl
+@base_address = http://localhost:5004/api/people
 
 GET {{base_address}}
 
 ###
-GET {{base_address}}/4
+GET {{base_address}}/1
 
 ###
 POST {{base_address}}
@@ -15,11 +15,11 @@ Content-Type: application/json
 }
 
 ###
-PUT {{base_address}}/5
+PUT {{base_address}}/4
 Content-Type: application/json 
 
 {
-    "id":5,
+    "id":4,
     "firstName": "Sue",
     "lastName": "Storm"
 }
